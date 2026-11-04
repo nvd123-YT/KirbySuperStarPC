@@ -160,16 +160,16 @@ def main() -> int:
         # Name the selectable dimensions accurately and explain the 8K hardware limit.
         replace_once(
             ui / "src/common/backends/imgui/launcher_imgui.cpp",
-            '        row_label_right("Window size", th, px(SETTINGS_CTRL_W));\\n',
-            '        row_label_right("Resolution", th, px(SETTINGS_CTRL_W));\\n',
+            '        row_label_right("Window size", th, px(SETTINGS_CTRL_W));\n',
+            '        row_label_right("Resolution", th, px(SETTINGS_CTRL_W));\n',
             "KIRBY_OUTPUT_RESOLUTION_LABEL",
         )
         replace_once(
             ui / "src/common/backends/imgui/launcher_imgui.cpp",
-            "            launcher_model_cycle_window_size(m);\\n",
-            "            launcher_model_cycle_window_size(m);\\n"
-            "        if (ImGui::IsItemHovered(ImGuiHoveredFlags_DelayNormal))\\n"
-            "            ImGui::SetTooltip(\\\"Output window dimensions. 7680 x 4320 is available in widescreen mode; your display and GPU must support it. Original SNES artwork remains 256 x 224 pixels.\\\");\\n",
+            "            launcher_model_cycle_window_size(m);\n",
+            "            launcher_model_cycle_window_size(m);\n"
+            "        if (ImGui::IsItemHovered(ImGuiHoveredFlags_DelayNormal))\n"
+            "            ImGui::SetTooltip(\"Output window dimensions. 7680 x 4320 is available in widescreen mode; your display and GPU must support it. Original SNES artwork remains 256 x 224 pixels.\");\n",
             "KIRBY_8K_OUTPUT_NOTE",
         )
 
@@ -208,7 +208,7 @@ def main() -> int:
             "    draw_aspect_row(m, th);\n\n"
             "    if (m->has_sharp_filter)",
             "    draw_aspect_row(m, th);\n"
-            "    draw_widescreen_row(m, th);\n\n"
+            "    draw_widescreen_row(m, th); /* KIRBY_WIDESCREEN_DEEP_CALL */\n\n"
             "    if (m->has_sharp_filter)",
             "KIRBY_WIDESCREEN_DEEP_CALL",
         )
