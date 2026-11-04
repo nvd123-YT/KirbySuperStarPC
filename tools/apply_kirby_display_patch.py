@@ -173,9 +173,7 @@ def main() -> int:
             "    if (ImGui::Checkbox(\"##widescreen\", &enabled))\n"
             "        launcher_model_toggle_widescreen(m);\n"
             "    if (ImGui::IsItemHovered(ImGuiHoveredFlags_DelayNormal))\n"
-            "        ImGui::SetTooltip(\"Experimental: renders additional SNES picture area on both sides.\n\"\n"
-            "                          \"Some screen-edge or HUD elements may need title-specific tuning.\n\"\n"
-            "                          \"This does not increase the original game's pixel detail.\");\n"
+            "        ImGui::SetTooltip(\"Experimental: renders 43 extra SNES pixels at each side; screen-edge or HUD elements may need title-specific tuning. Original pixel detail is unchanged.\");\n"
             "}\n\n"
             "// True when this game exposes ANY of the deeper PSX-style DISPLAY controls.",
             "KIRBY_WIDESCREEN_SETTINGS_ROW",
@@ -185,7 +183,7 @@ def main() -> int:
             "        draw_aspect_row(m, th);\n"
             "        if (m->has_integer_scale)",
             "        draw_aspect_row(m, th);\n"
-            "        draw_widescreen_row(m, th);\n"
+            "        draw_widescreen_row(m, th); /* KIRBY_WIDESCREEN_LEGACY_CALL */\n"
             "        if (m->has_integer_scale)",
             "KIRBY_WIDESCREEN_LEGACY_CALL",
         )
