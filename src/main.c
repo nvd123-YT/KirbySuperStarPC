@@ -27,6 +27,7 @@
 
 #include "host_main.h"
 #include "game_rtl.h"
+#include "config.h"                   /* live desktop display settings */
 #include "snesrecomp_rom_identity.h"  /* generated from rom_identity.txt */
 
 #include <stdio.h>
@@ -42,6 +43,22 @@ static void kirby_dump_interpreter_tail(void)
         fprintf(stderr, "[kirby_boot] final interpreter trace\n");
         interp_bridge_dump_recent(512, stderr);
     }
+}
+
+/* The desktop host asks once per frame how wide the SNES PPU field should be.
+ * Native mode stays 256 pixels; the experimental 16:9 mode exposes 43 extra
+ * PPU pixels on both sides instead of stretching the original 4:3 picture. */
+static void kirby_prepare_frame(int drawable_w, int drawable_h,
+                                int *frame_w, int *frame_h)
+{
+    (void)drawable_w;
+    (void)drawable_h;
+    if (frame_w) {
+        *frame_w = g_config.widescreen
+            ? SnesDisplayAspect_ComputeWideFrameWidth(256)
+            : 256;
+    }
+    if (frame_h) *frame_h = 224;
 }
 
 #ifndef __ANDROID__
@@ -68,6 +85,11 @@ static const SnesDesktopHostGame kGameHost = {
     .build_version       = SNES_GAME_VERSION,
     .game_info           = &kGameInfo,
     .num_players         = 2,
+    .widescreen_supported = 1,
+    .frame_width         = 256,
+    .frame_height        = 224,
+    .native_widescreen   = 1,
+    .prepare_frame       = kirby_prepare_frame,
     /* Battery-backed SRAM shows the launcher's SAVES panel. Leave NULL for a
      * title without one. The path is exe-relative. */
     .sram_path           = "saves/save.srm",
