@@ -83,6 +83,21 @@ Either way the ROM is checked against the digests above before anything boots
 — a dump that could not have produced this build is refused at the door rather
 than mis-executing ten frames in.
 
+## Display settings
+
+The Display panel offers an **experimental widescreen** switch and selectable
+output-window sizes from 320 pixels wide up to 7680 pixels wide. With widescreen
+enabled, the largest preset is **7680 × 4320 (8K)**; the default 3× window size
+remains 960 × 720 until changed. The selected output size and widescreen state
+are saved in `config.ini`.
+
+Widescreen expands the SNES PPU field from 256 to 342 pixels, revealing 43 extra
+pixels on each side rather than stretching the original image. This is
+title-level experimental support: some screen-edge or HUD elements may not be
+designed for the wider field. Higher output sizes only enlarge the rendered
+frame; they do **not** add detail beyond the original 256 × 224 SNES picture,
+and using 4K/5K/8K window sizes requires suitable display and GPU support.
+
 ## Package the manual build as a macOS app
 
 When the **manual build on your Mac has already been confirmed to render
@@ -116,7 +131,7 @@ without that local manual build. The official Nightly remains a setup pack.
 | `src/` | Host code you own: `main.c`, `game_rtl.c` |
 | `src/gen/` | Generated C. Never committed — regenerate locally |
 | `snesrecomp/` | Framework submodule (owns `lib/recomp-net`, `lib/retcomm-rbengine`) |
-| `tools/` | `regen.sh` — the ROM → C pipeline |
+| `tools/` | `regen.sh` — ROM → C pipeline; guarded project patches for framework/UI integration |
 | `scripts/` | `package_release.sh` — player-facing zip |
 | `framework_pins.txt` | Exact framework commits this project was scaffolded against |
 
