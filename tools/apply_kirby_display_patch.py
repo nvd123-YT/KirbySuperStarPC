@@ -157,6 +157,22 @@ def main() -> int:
             "KIRBY_8K_WINDOW_ASPECT",
         )
 
+        # Name the selectable dimensions accurately and explain the 8K hardware limit.
+        replace_once(
+            ui / "src/common/backends/imgui/launcher_imgui.cpp",
+            '        row_label_right("Window size", th, px(SETTINGS_CTRL_W));\\n',
+            '        row_label_right("Resolution", th, px(SETTINGS_CTRL_W));\\n',
+            "KIRBY_OUTPUT_RESOLUTION_LABEL",
+        )
+        replace_once(
+            ui / "src/common/backends/imgui/launcher_imgui.cpp",
+            "            launcher_model_cycle_window_size(m);\\n",
+            "            launcher_model_cycle_window_size(m);\\n"
+            "        if (ImGui::IsItemHovered(ImGuiHoveredFlags_DelayNormal))\\n"
+            "            ImGui::SetTooltip(\\\"Output window dimensions. 7680 x 4320 is available in widescreen mode; your display and GPU must support it. Original SNES artwork remains 256 x 224 pixels.\\\");\\n",
+            "KIRBY_8K_OUTPUT_NOTE",
+        )
+
         # The pinned launcher model had the widescreen mutator but no visible
         # row in its display panel. Add it to both minimal and deep display paths.
         replace_once(
