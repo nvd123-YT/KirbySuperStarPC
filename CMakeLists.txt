@@ -166,6 +166,20 @@ if(NOT EXISTS "${RECOMP_UI_ROOT}/recomp_ui.cmake")
         "Run: git submodule update --init --recursive recomp-ui")
 endif()
 
+# KIRBY_DISPLAY_BUILD_PATCH: enable the SNES PPU widescreen path, visible
+# widescreen control, persistent output-size presets, and window sizes through 8K.
+execute_process(
+    COMMAND "${Python3_EXECUTABLE}"
+            "${CMAKE_SOURCE_DIR}/tools/apply_kirby_display_patch.py"
+            --framework-root "${SNESRECOMP_ROOT}"
+            --ui-root "${RECOMP_UI_ROOT}"
+    RESULT_VARIABLE _kirby_display_patch_result)
+if(NOT "${_kirby_display_patch_result}" STREQUAL "0")
+    message(FATAL_ERROR
+        "Could not enable Kirby widescreen / 8K output sizes. "
+        "See tools/apply_kirby_display_patch.py output.")
+endif()
+
 # Add the title-owned Nightly update action to the shared launcher. The patch
 # is guarded and idempotent; the shared recomp-ui submodule remains untouched
 # in git and is patched only in this build checkout.
