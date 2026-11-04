@@ -112,7 +112,7 @@ def main() -> int:
             fw / "runner/src/desktop/mmx_config.c",
             '    { "Graphics", "WindowScale" },\n',
             '    { "Graphics", "WindowScale" },\n'
-            '    { "Graphics", "WindowSize" },\n',
+            '    { "Graphics", "WindowSize" }, /* KIRBY_WINDOW_SIZE_CONFIG_KEY */\n',
             'KIRBY_WINDOW_SIZE_CONFIG_KEY',
         )
         replace_once(
@@ -161,13 +161,14 @@ def main() -> int:
         replace_once(
             ui / "src/common/backends/imgui/launcher_imgui.cpp",
             '        row_label_right("Window size", th, px(SETTINGS_CTRL_W));\n',
-            '        row_label_right("Resolution", th, px(SETTINGS_CTRL_W));\n',
+            '        row_label_right("Resolution", th, px(SETTINGS_CTRL_W)); /* KIRBY_OUTPUT_RESOLUTION_LABEL */\n',
             "KIRBY_OUTPUT_RESOLUTION_LABEL",
         )
         replace_once(
             ui / "src/common/backends/imgui/launcher_imgui.cpp",
             "            launcher_model_cycle_window_size(m);\n",
             "            launcher_model_cycle_window_size(m);\n"
+            "        /* KIRBY_8K_OUTPUT_NOTE */\n"
             "        if (ImGui::IsItemHovered(ImGuiHoveredFlags_DelayNormal))\n"
             "            ImGui::SetTooltip(\"Output window dimensions. 7680 x 4320 is available in widescreen mode; your display and GPU must support it. Original SNES artwork remains 256 x 224 pixels.\");\n",
             "KIRBY_8K_OUTPUT_NOTE",
@@ -182,6 +183,7 @@ def main() -> int:
             "// True when this game exposes ANY of the deeper PSX-style DISPLAY controls.",
             "    ImGui::PopID();\n"
             "}\n\n"
+            "/* KIRBY_WIDESCREEN_SETTINGS_ROW */\n"
             "static void draw_widescreen_row(LauncherModel* m, const LauncherTheme& th) {\n"
             "    if (!m || !m->widescreen_supported) return;\n"
             "    row_label_right(\"Widescreen\", th, ImGui::GetFrameHeight());\n"
